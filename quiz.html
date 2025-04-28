@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Seconda Guerra Mondiale</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        #question {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .option {
+            margin: 5px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ddd;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .option:hover {
+            background-color: #ccc;
+        }
+
+        #next-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quiz">
+        <div id="question">Domanda qui</div>
+        <div class="options">
+            <button class="option" onclick="selectAnswer(0)">Opzione 1</button>
+            <button class="option" onclick="selectAnswer(1)">Opzione 2</button>
+            <button class="option" onclick="selectAnswer(2)">Opzione 3</button>
+            <button class="option" onclick="selectAnswer(3)">Opzione 4</button>
+        </div>
+        <button id="next-btn" onclick="nextQuestion()">Prossima</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "In che anno è iniziata la Seconda Guerra Mondiale?",
+                options: ["1935", "1939", "1941", "1945"],
+                answer: 1
+            },
+            {
+                question: "Chi era il leader della Germania nazista?",
+                options: ["Hitler", "Mussolini", "Churchill", "Stalin"],
+                answer: 0
+            },
+            {
+                question: "Quale evento ha scatenato la guerra?",
+                options: ["Invasione della Polonia", "Attacco a Pearl Harbor", "Battaglia di Stalingrado", "Sbarco in Normandia"],
+                answer: 0
+            },
+            {
+                question: "Come si chiamava l'alleanza tra Germania, Italia e Giappone?",
+                options: ["Alleanza Atlantica", "Asse Roma-Berlino-Tokyo", "Triplice Intesa", "Nazioni Unite"],
+                answer: 1
+            },
+            {
+                question: "Chi era il primo ministro britannico durante gran parte della guerra?",
+                options: ["Neville Chamberlain", "Winston Churchill", "Franklin Roosevelt", "Charles de Gaulle"],
+                answer: 1
+            },
+            {
+                question: "In quale anno fu lanciata la bomba atomica su Hiroshima?",
+                options: ["1943", "1944", "1945", "1946"],
+                answer: 2
+            },
+            {
+                question: "Come si chiamava il progetto per costruire la bomba atomica?",
+                options: ["Progetto Manhattan", "Progetto Mercury", "Operazione Overlord", "Progetto Apollo"],
+                answer: 0
+            },
+            {
+                question: "Chi comandava l'Unione Sovietica durante la guerra?",
+                options: ["Vladimir Lenin", "Josef Stalin", "Leon Trotsky", "Nikita Krusciov"],
+                answer: 1
+            },
+            {
+                question: "Dove si tenne il processo contro i criminali nazisti?",
+                options: ["Berlino", "Norimberga", "Parigi", "Londra"],
+                answer: 1
+            },
+            {
+                question: "Cosa significava D-Day?",
+                options: ["Battaglia di Dunkerque", "Sbarco in Normandia", "Battaglia d'Inghilterra", "Liberazione di Parigi"],
+                answer: 1
+            },
+            {
+                question: "Qual era il nome in codice per lo sbarco in Normandia?",
+                options: ["Operazione Torch", "Operazione Barbarossa", "Operazione Overlord", "Operazione Market Garden"],
+                answer: 2
+            },
+            {
+                question: "Quale nazione fu occupata dal Giappone durante la guerra?",
+                options: ["Corea", "India", "Canada", "Australia"],
+                answer: 0
+            },
+            {
+                question: "Chi firmò la resa della Germania?",
+                options: ["Erwin Rommel", "Karl Dönitz", "Adolf Hitler", "Heinrich Himmler"],
+                answer: 1
+            },
+            {
+                question: "Come si chiamava il famoso caccia britannico?",
+                options: ["Spitfire", "Mustang", "Zero", "Messerschmitt"],
+                answer: 0
+            },
+            {
+                question: "Quale battaglia è considerata la svolta sul fronte orientale?",
+                options: ["Battaglia di Berlino", "Battaglia di Kursk", "Battaglia di Stalingrado", "Battaglia di Mosca"],
+                answer: 2
+            },
+            {
+                question: "Quale leader italiano fu rovesciato nel 1943?",
+                options: ["Giovanni Giolitti", "Benito Mussolini", "Vittorio Emanuele III", "Pietro Badoglio"],
+                answer: 1
+            },
+            {
+                question: "Che cosa era la 'Luftwaffe'?",
+                options: ["Marina tedesca", "Aeronautica tedesca", "Esercito tedesco", "Polizia segreta"],
+                answer: 1
+            },
+            {
+                question: "Quale città tedesca fu quasi distrutta da un bombardamento alleato nel 1945?",
+                options: ["Amburgo", "Dresda", "Berlino", "Colonia"],
+                answer: 1
+            },
+            {
+                question: "Chi erano i 'Kamikaze'?",
+                options: ["Soldati sovietici", "Piloti giapponesi suicidi", "Soldati americani", "Spie tedesche"],
+                answer: 1
+            },
+            {
+                question: "Qual era il nome della conferenza del 1945 per decidere il destino della Germania?",
+                options: ["Conferenza di Ginevra", "Conferenza di Yalta", "Conferenza di Berlino", "Conferenza di Potsdam"],
+                answer: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById("question").innerText = q.question;
+            const options = document.querySelectorAll(".option");
+            options.forEach((button, index) => {
+                button.innerText = q.options[index];
+            });
+            document.getElementById("result").innerText = "";
+        }
+
+        function selectAnswer(selected) {
+            if (selected === questions[currentQuestion].answer) {
+                score++;
+            }
+            document.getElementById("next-btn").disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+                document.getElementById("next-btn").disabled = true;
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById("quiz").innerHTML = `
+                <h2>Quiz completato!</h2>
+                <p>Il tuo punteggio: ${score} su ${questions.length}</p>
+            `;
+        }
+
+        // Carica la prima domanda
+        loadQuestion();
+        document.getElementById("next-btn").disabled = true;
+    </script>
+</body>
+</html>
